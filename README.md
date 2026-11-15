@@ -51,7 +51,7 @@ flowchart LR
 From the **actual project root** `TerraRover_Plataforma/`, not from this documentation-only ZIP:
 
 ```powershell
-py -3.11 -m venv .venv
+python3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-backend.txt
 .\.venv\Scripts\python.exe -m uvicorn backend.api:app --host 127.0.0.1 --port 8000
 ```
