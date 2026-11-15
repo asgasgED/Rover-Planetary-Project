@@ -1,0 +1,56 @@
+{
+  "region": "Rima_Hadley",
+  "fuente": "SLDEM",
+  "cuerpo": "Luna",
+  "tesela": "PDS",
+  "archivo_origen": "datos_originales\\Luna\\Mare_Tranquillitatis\\SLDEM\\sldem2015_512_00n_30n_000_045.jp2",
+  "centro_planetocentrico": {
+    "lat": 26.13,
+    "lon_este": 3.63
+  },
+  "crs_procesado": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",26.13],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "referencia_vertical_producto": "Altura lunar sobre radio de referencia 1737400 m",
+  "resolucion_nativa_aproximada_m": 59.225293797166955,
+  "malla_resultado_m": 58.8235294117647,
+  "sin_interpolacion_espacial": true,
+  "dimension_px": [
+    85,
+    85
+  ],
+  "pixeles_validos": 7225,
+  "porcentaje_cobertura": 100.0,
+  "lado_solicitado_km": 5.0,
+  "elevacion_min_m": -2234.772216796875,
+  "elevacion_max_m": -1890.614501953125,
+  "desnivel_m": 344.15771484375,
+  "exageracion_vertical": 1.0,
+  "obj_referencia_xy": "metros locales en el plano del raster",
+  "obj_referencia_z": "altitud menos altitud minima de la ventana, en metros",
+  "notas": "SLDEM2015: Scale=0.5, radio de referencia 1737400 m; proyección local ajustada a latitud 26.13",
+  "archivos": [
+    "DEM.tif",
+    "Mapa_2D.tiff",
+    "Mapa_2D.png",
+    "Terreno_3D.html",
+    "Terreno_3D.obj",
+    "metadatos.json"
+  ],
+  "detalle_visual_3d": "Submuestreo solo del HTML/OBJ; GeoTIFF DEM conserva la malla completa",
+  "salto_visual_3d": 1,
+  "pixel_visual_3d_m": 58.82353,
+  "fuente_original_compartida": "Mare_Tranquillitatis_SLDEM",
+  "extension_ancho_m": 5000.0,
+  "extension_alto_m": 5000.0,
+  "metodo_recorte": "Reproyección lunar local y remuestreo bilineal sin superresolución",
+  "archivo_fuente_para_entrega": "resultado_dem\\Rima_Hadley_SLDEM\\DEM.tif",
+  "pixel_m": 58.8235294117647,
+  "referencia_z": "Z absoluto en DEM.tif; Z local=Z-Zmin en visualizacion 3D y OBJ",
+  "remuestreo_para_cuadrado_exacto": "bilinear; NO añade detalle nativo",
+  "sin_suavizado_anomalias": true,
+  "anomalías_candidatas": 1,
+  "informe_auditoria": "../../entrega_5km/auditoria/auditoria.json",
+  "advertencias": [
+    "Resolución decamétrica: insuficiente para piedras y obstáculos menores al tamaño de celda",
+    "Señales locales candidatas: no se modifican sin una fuente independiente"
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "Mare_Tranquillitatis_SLDEM": {
+    "site": "Mare Tranquillitatis · Apollo 11",
+    "sample": "Apollo 11 lunar sample 10084",
+    "note": "Oxide values supplied by the team; source-by-source bibliographic verification pending",
+    "rows": [
+      [
+        "SiO₂",
+        "42.00 %"
+      ],
+      [
+        "TiO₂",
+        "7.54 %"
+      ],
+      [
+        "Al₂O₃",
+        "13.55 %"
+      ],
+      [
+        "FeO",
+        "15.81 %"
+      ],
+      [
+        "MnO",
+        "0.213 %"
+      ],
+      [
+        "MgO",
+        "7.88 %"
+      ],
+      [
+        "CaO",
+        "11.96 %"
+      ],
+      [
+        "Na₂O",
+        "0.438 %"
+      ],
+      [
+        "K₂O",
+        "0.135 %"
+      ],
+      [
+        "P₂O₅",
+        "0.101 %"
+      ],
+      [
+        "S",
+        "0.11 %"
+      ]
+    ]
+  },
+  "Gale_Crater_MOLA": {
+    "site": "Gale · Rocknest",
+    "sample": "Windblown soil characterized by the Curiosity rover",
+    "note": "Phases identified by X-ray diffraction; these are sample observations, not chemical values measured over the DEM crop",
+    "rows": [
+      [
+        "Plagioclase",
+        "Detected"
+      ],
+      [
+        "Olivine",
+        "Detected"
+      ],
+      [
+        "Augita",
+        "Detected"
+      ],
+      [
+        "Pigeonite",
+        "Detected"
+      ],
+      [
+        "Magnetite",
+        "Minor phase"
+      ],
+      [
+        "Anhydrite",
+        "Minor phase"
+      ],
+      [
+        "Hematite",
+        "Minor phase"
+      ],
+      [
+        "Amorphous material",
+        "27 ± 14 wt.%"
+      ]
+    ]
+  },
+  "Meridiani_Planum_MOLA": {
+    "site": "Meridiani Planum · Opportunity mission",
+    "sample": "Soil, dust and sedimentary rocks",
+    "note": "Mineralogical context from different materials; these do not constitute one representative sample",
+    "rows": [
+      [
+        "Jarosite",
+        "Detected"
+      ],
+      [
+        "Hematite",
+        "Detected"
+      ],
+      [
+        "Olivine",
+        "Detected"
+      ],
+      [
+        "Pyroxene",
+        "Detected"
+      ],
+      [
+        "Magnetite",
+        "Detected"
+      ],
+      [
+        "Sulfates",
+        "Reported in rocks"
+      ]
+    ]
+  },
+  "Askja_ASTER": {
+    "site": "Askja · volcanic basalts",
+    "sample": "Primitive and evolved rock groups",
+    "note": "Ranges from a study cited by the team; not analyses of the DEM cells",
+    "rows": [
+      [
+        "SiO₂",
+        "49.8–51.6 %"
+      ],
+      [
+        "MgO",
+        "4.6–7.3 %"
+      ],
+      [
+        "TiO₂",
+        "1.64–2.85 %"
+      ]
+    ]
+  },
+  "Yungay_NASADEM": {
+    "site": "Atacama Desert · Yungay",
+    "sample": "Series of hyperarid-soil sampling sites",
+    "note": "Mineralogy of local samples; do not imply uniform composition across a 5 km tile",
+    "rows": [
+      [
+        "Quartz",
+        "44 ± 6 %"
+      ],
+      [
+        "Albita",
+        "25 ± 6 %"
+      ],
+      [
+        "Microcline",
+        "16 ± 4 %"
+      ],
+      [
+        "Chloride",
+        "5.8–3600 ppm"
+      ],
+      [
+        "Nitrate",
+        "1.9–5000 ppm"
+      ],
+      [
+        "Sulfate",
+        "24–17000 ppm"
+      ]
+    ]
+  }
+}

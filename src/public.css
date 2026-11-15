@@ -1,0 +1,94 @@
+/* TerraRover 4.2 / public research edition.
+ * Explicit light surfaces and readable states; source DEM raster colors remain unchanged.
+ */
+:root{color-scheme:light;--public-red:#b80c09;--public-hot:#fc3c23;--public-black:#101010;--public-white:#fff;--public-border:#dcdcdc}
+html,html[data-theme],body,.app-shell,.workspace,.content,.sidebar,.topbar{background:#f8f8f8!important;color:#171717!important}
+.sidebar,.topbar{background:#fff!important}
+.content{background:#f8f8f8!important}
+/* Visible copy without selecting text. */
+.page-heading h1,.page-heading h2,.page-heading p,.region-card h3,.region-card .region-meta,.region-card .region-stat-line b,
+.detail-summary h1,.detail-summary p,.detail-grid .card p,.detail-grid .card h3,.spec-row,.spec-row strong,
+.card-header h3,.card-pad,.feature-row,.feature-row b,.feature-row small,.chemistry-element,.chemistry-element span,.chemistry-element strong,
+.map-detail-body h3,.map-detail-body p,.map-detail-body .spec-list,.map-side-header,.map-side-header h2,
+.map-list-btn b,.map-list-btn small,.download-tile,.download-tile b,.download-tile small,
+.chemistry-description,.empty-chem,.empty-chem b,.empty-chem p,.tagline,.fine,.card-meta,
+.science-live .card-pad p,.science-live .card-pad small,.analysis-chart p,.chart-axis,.notice,
+.cosine-explainer h3,.cosine-explainer p,.compare-split h3,.compare-split .spec-list,
+.select-field label,.select-field span,.select-field select,.input-wrap input{color:#161616!important}
+.page-heading p,.region-card .region-meta,.region-card .region-stat-line small,
+.detail-summary p,.map-detail-body p,.chemistry-description,.download-tile small,.card-meta,.tagline{color:#4e4e4e!important}
+.overline,.page-heading>.overline,.section-heading .overline,.detail-hero .overline{color:#b80c09!important}
+.region-card,.region-content,.card,.detail-tabs,.detail-grid .card,.map-details,.map-detail-body,
+.detail-summary,.download-tile,.chemistry-block,.chart-empty,.viewer-placeholder,.empty-chem{background:#fff!important;color:#171717!important}
+.region-art{background:#191919!important}
+.region-art-top .body-tag,.region-art-bottom,.detail-scene .scene-caption{color:#fff!important}
+.region-card a:not(.btn),.region-card .region-footer>a,.region-card .region-footer>a:visited,
+.region-card .region-footer>a .i{color:#b80c09!important}
+.region-card .region-footer>a{font-size:14px;font-weight:800;text-decoration:none;opacity:1!important;visibility:visible!important;display:inline-flex;gap:7px;align-items:center}
+.region-card .region-footer>a:hover{color:#fc3c23!important}
+.region-card .region-meta .i,.detail-grid .card-header .i{color:#555!important}
+.catalog-filters .filter-btn,.catalog-filters .filter-btn:not(.on){background:#141414!important;color:#fff!important;border:1px solid #141414!important}
+.catalog-filters .filter-btn.on,.catalog-filters .filter-btn.on:hover{background:#b80c09!important;color:#fff!important;border-color:#b80c09!important}
+.catalog-filters .filter-btn:hover{background:#333!important;color:#fff!important}
+.catalog-toolbar .input-wrap{background:#fff!important;border:1px solid #c6c6c6!important}
+.catalog-toolbar .input-wrap input::placeholder{color:#626262!important}
+.detail-tabs button{color:#171717!important;background:#f2f2f2!important;opacity:1!important}
+.detail-tabs button.active{color:#fff!important;background:#141414!important}
+.detail-tabs button:hover{color:#171717!important;background:#e4e4e4!important}
+.detail-tabs button.active:hover{color:#fff!important;background:#252525!important}
+.body-tag,.body-tag.earth,.body-tag.moon,.body-tag.mars,
+.status-tag.ready{background:#111!important;color:#fff!important;border-color:#444!important;opacity:1!important}
+.status-tag.muted,.status-tag.neutral,.status-tag.info{background:#eee!important;color:#222!important;border-color:#ccc!important}
+.btn.btn-primary,.btn-primary:hover{background:#fc3c23!important;border-color:#fc3c23!important;color:#fff!important}
+.btn.btn-primary .i,.btn-primary .i{color:#fff!important}
+.btn.btn-outline,.btn-outline:visited{background:#fff!important;color:#171717!important;border-color:#bdbdbd!important}
+.btn.btn-outline:hover{background:#f1f1f1!important;color:#111!important}
+.spec-row>span{color:#626262!important}
+.spec-row>strong{color:#111!important}
+.select,.select-field select,.community-upload-form input,.community-upload-form select{background:#fff!important;color:#151515!important;border:1px solid #bdbdbd!important}
+.select option{background:#fff;color:#151515}
+.nav-item:not(.active){color:#262626!important;background:transparent!important}
+.nav-item.active,.nav-item.active:hover{background:#101010!important;color:#fff!important}
+.nav-item.active .i,.nav-item.active span{color:#fff!important}
+.nav-list .nav-item:hover:not(.active){background:#eee!important;color:#111!important}
+/* Keep astronomical illustrations/scientific figures with their authentic dark styles. */
+.cinema-hero,.cosmos-stars,.planet-container,.region-art:after,.simulation-empty{color:#fff!important}
+.cinema-hero h1,.cinema-hero p,.cinema-hero .cinema-overline,.cinema-hero .cinema-sub,.cinema-hero .cinema-intro,
+.cinema-hero .world-controls,.cinema-hero .cinema-textlink{color:#fff!important}
+/* Numeric score and unit must remain independent visual rows. */
+.compare-result{background:#101010!important;color:#fff!important;padding:34px 20px 38px!important;text-align:center}
+.compare-result .number{display:block!important;margin:22px 0 0!important;line-height:1.1!important}
+.compare-result .number .score-value{display:block!important;font-size:clamp(44px,7vw,83px)!important;line-height:1.15!important;color:#fff!important}
+.compare-result .score-unit{display:block!important;margin:23px 0 14px!important;position:static!important;line-height:1.4!important;color:#fff!important;font-size:17px!important;font-weight:700!important}
+.compare-result p,.compare-result .overline,.compare-result .score-empty{color:#fff!important}
+/* Simplified public simulation and discovery pages. */
+.discover-results{display:grid;gap:13px;margin:20px 0 0}
+.discover-card{padding:19px 23px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:22px;align-items:center}
+.discover-card h3{margin:6px 0 4px;font-size:21px;color:#111}
+.discover-card p,.discover-card small{font-size:12px;color:#626262}
+.discover-score{min-width:116px;text-align:center}
+.discover-score strong{display:block;color:#101010;font-size:27px;font-variant-numeric:tabular-nums}
+.discover-score small{display:block;color:#555}
+.discover-actions{display:flex;gap:9px;flex-wrap:wrap}
+.simulation-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:470px;border-radius:18px;padding:55px 25px;text-align:center;background:radial-gradient(circle at 60% 40%,#292929 0%,#111 67%)!important}
+.simulation-empty .overline{color:#fc3c23!important}
+.simulation-empty h2{color:#fff;font-size:clamp(26px,4vw,43px);margin:12px 0}
+.simulation-empty p{color:#ddd;max-width:570px;line-height:1.7}
+.simulation-orbit{border:1px solid #555;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;margin-bottom:23px}
+.simulation-orbit .i{width:40px;height:40px;color:#fff}
+.community-upload-form{display:grid;gap:16px;margin-top:20px}
+.community-upload-form label{display:grid;gap:8px;font-size:12px;font-weight:750;color:#151515}
+.community-upload-form input,.community-upload-form select{display:block;width:100%;padding:12px;border-radius:7px;font-size:14px}
+.community-upload-form input[type=file]{border:1px dashed #888;padding:17px;background:#fafafa!important}
+.community-upload-form .upload-consent{display:flex;align-items:flex-start;gap:10px;font-size:12px;font-weight:500;line-height:1.6}
+.community-upload-form .upload-consent input{width:18px;min-width:18px;height:18px;margin-top:2px;accent-color:#b80c09}
+.community-upload-form .btn{justify-self:start}
+.modal-backdrop .modal{max-height:min(93vh,850px);overflow-y:auto;background:#fff!important;color:#111!important}
+.modal-body,.modal-header,.modal-body p,.modal-body label,.modal-body small{color:#151515!important}
+.map-side,.map-list,.map-details{background:#fff!important;color:#141414!important}
+.map-list-btn{color:#111!important}
+.map-list-btn.selected{border-color:#b80c09!important;background:#fff4f3!important}
+.map-list-btn.selected b,.map-list-btn.selected small{color:#141414!important}
+@media(max-width:1100px){.discover-card{grid-template-columns:1fr auto}.discover-actions{grid-column:1/-1}}
+@media(max-width:700px){.discover-card{grid-template-columns:1fr}.discover-score{text-align:left}.discover-actions{grid-column:auto}.discover-actions>*{flex:1}.simulation-empty{min-height:360px;padding:28px 17px}.catalog-filters .filter-btn{min-height:40px}.catalog-toolbar .input-wrap{min-width:0}.modal{width:min(95vw,660px)}}
+@media(prefers-reduced-motion:reduce){.discover-card,.simulation-orbit{animation:none!important;transition:none!important}}

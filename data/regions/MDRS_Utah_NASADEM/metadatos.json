@@ -1,0 +1,62 @@
+{
+  "region": "MDRS_Utah",
+  "fuente": "NASADEM",
+  "tesela": "n38w111",
+  "archivo_origen": "datos_originales\\NASADEM\\NASADEM_HGT_n38w111.zip",
+  "centro_wgs84": {
+    "lat": 38.4062,
+    "lon": -110.7894
+  },
+  "producto": "Modelo de elevacion",
+  "referencia_vertical_producto": "EGM96 (NASADEM/SRTM/ASTER)",
+  "crs_procesado": "EPSG:32612",
+  "resolucion_fuente_grados_si_corresponde": [
+    0.0002777777777777778,
+    0.0002777777777777778
+  ],
+  "malla_resultado_m": 30.0,
+  "nota_resolucion": "Los valores se han remuestreado a la malla UTM; no incrementa el detalle nativo.",
+  "dimension_px": [
+    162,
+    162
+  ],
+  "pixeles_validos": 27889,
+  "porcentaje_cobertura": 100.0,
+  "lado_solicitado_km": 5.0,
+  "elevacion_min_m": 1335.198,
+  "elevacion_max_m": 1427.953,
+  "desnivel_m": 92.754,
+  "exageracion_vertical": 1.0,
+  "obj_referencia_xy": "Coordenadas locales en metros desde la esquina suroeste del raster",
+  "obj_referencia_z": "Z = elevacion original - elevacion minima, en metros",
+  "origen_utm_raster": {
+    "x_izquierda": 515882.6724659791,
+    "y_arriba": 4253411.310094574
+  },
+  "centro_utm": {
+    "x": 518387.6724659791,
+    "y": 4250906.310094574
+  },
+  "archivos": [
+    "DEM.tif",
+    "Mapa_2D.tiff",
+    "Mapa_2D.png",
+    "Terreno_3D.html",
+    "Terreno_3D.obj",
+    "metadatos.json"
+  ],
+  "cuerpo": "Tierra",
+  "archivo_fuente_para_entrega": "resultado_dem\\MDRS_Utah_NASADEM\\DEM.tif",
+  "extension_ancho_m": 5000.0,
+  "extension_alto_m": 5000.0,
+  "pixel_m": 30.864197530864196,
+  "resolucion_nativa_aproximada_m": 30.87,
+  "referencia_z": "Z absoluto en DEM.tif; Z local=Z-Zmin en visualizacion 3D y OBJ",
+  "remuestreo_para_cuadrado_exacto": "bilinear; NO añade detalle nativo",
+  "sin_suavizado_anomalias": true,
+  "anomalías_candidatas": 0,
+  "informe_auditoria": "../../entrega_5km/auditoria/auditoria.json",
+  "advertencias": [
+    "Resolución decamétrica: insuficiente para piedras y obstáculos menores al tamaño de celda"
+  ]
+}

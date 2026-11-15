@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {cosine,comparisonStatus} from '../src/analysis.js';
+const all=JSON.parse(fs.readFileSync(new URL('../data/catalog.json',import.meta.url),'utf8')).items;
+const A=all.find(x=>x.id==='Timanfaya_ASTER');
+const B=all.find(x=>x.id==='Mare_Tranquillitatis_SLDEM');
+const C=all.find(x=>x.id==='Jezero_MOLA');
+assert.ok(A.metrics && B.metrics && C.metrics);
+assert.ok(comparisonStatus(A,B).ok);
+assert.ok(cosine(A,B)>0 && cosine(A,B)<=1);
+assert.equal(comparisonStatus(A,C).ok,true,'MOLA admits ONLY exploratory regional comparison');
+assert.equal(comparisonStatus(A,C).tier,'regional','MOLA must keep explicit regional-only warning');
+assert.equal(comparisonStatus(A,A).ok,false,'Comparación consigo mismo bloqueada');
+const D=all.find(x=>x.id==='Gale_Crater_MOLA');
+assert.equal(comparisonStatus(A,D).ok,false,'No se inventan métricas ausentes');
+console.log('Pruebas de comparación completadas.');

@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const app=fs.readFileSync(new URL('../src/app.js',import.meta.url),'utf8');
+const css=fs.readFileSync(new URL('../src/v4_light.css',import.meta.url),'utf8');
+const live=fs.readFileSync(new URL('../src/live_analysis.js',import.meta.url),'utf8');
+assert.ok(app.includes('<span class="score-unit">cos(θ)</span>'), 'score unit exists');
+assert.ok(!app.includes('</span><span class="score-unit">cos(θ)</span></div>'), 'score unit is outside numeric flex row');
+assert.ok(css.includes('.compare-result>.score-unit'), 'score unit has separate block styling');
+assert.ok(css.includes('.catalog-filters .filter-btn.on'), 'active filter has contrast rules');
+assert.ok(css.includes('.region-card .region-footer>a'), 'permanent red details link');
+assert.ok(css.includes('.detail-tabs button.active'), 'detail tabs have contrast rules');
+assert.ok(app.includes('Find Analog Sites'), 'public discover page is available');
+assert.ok(app.includes('Rover Simulation'), 'future rover area exists');
+assert.ok(!app.includes('Test AMD connection'), 'no internal AI test control');
+assert.ok(!app.includes('Import datasets'), 'no internal import control');
+assert.ok(app.includes('publicDemForm'), 'community submission is implemented');
+console.log('TerraRover v4.1 UI regression checks passed.');

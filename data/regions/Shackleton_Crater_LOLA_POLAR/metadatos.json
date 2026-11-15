@@ -1,0 +1,56 @@
+{
+  "region": "Shackleton_Crater",
+  "fuente": "LOLA_POLAR",
+  "cuerpo": "Luna",
+  "tesela": "PDS",
+  "archivo_origen": "datos_originales\\Luna\\Shackleton_Crater\\LOLA_POLAR\\ldem_875s_5m.jp2",
+  "centro_planetocentrico": {
+    "lat": -89.9,
+    "lon_este": 0.0
+  },
+  "crs_procesado": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH]]",
+  "referencia_vertical_producto": "Altura lunar sobre radio de referencia 1737400 m",
+  "resolucion_nativa_aproximada_m": 5.0,
+  "malla_resultado_m": 5.0,
+  "sin_interpolacion_espacial": true,
+  "dimension_px": [
+    1000,
+    1000
+  ],
+  "pixeles_validos": 1000000,
+  "porcentaje_cobertura": 100.0,
+  "lado_solicitado_km": 5.0,
+  "elevacion_min_m": -415.76641845703125,
+  "elevacion_max_m": 1325.0,
+  "desnivel_m": 1740.766357421875,
+  "exageracion_vertical": 1.0,
+  "obj_referencia_xy": "metros locales en el plano del raster",
+  "obj_referencia_z": "altitud menos altitud minima de la ventana, en metros",
+  "notas": "LOLA polar sur: altura sobre radio lunar 1737400 m; Scale=0.5",
+  "archivos": [
+    "DEM.tif",
+    "Mapa_2D.tiff",
+    "Mapa_2D.png",
+    "Terreno_3D.html",
+    "Terreno_3D.obj",
+    "metadatos.json"
+  ],
+  "detalle_visual_3d": "Submuestreo solo del HTML/OBJ; GeoTIFF DEM conserva la malla completa",
+  "salto_visual_3d": 4,
+  "pixel_visual_3d_m": 20.0,
+  "fuente_original_compartida": null,
+  "extension_ancho_m": 5000.0,
+  "extension_alto_m": 5000.0,
+  "metodo_recorte": "Reproyección lunar local y remuestreo bilineal sin superresolución",
+  "archivo_fuente_para_entrega": "resultado_dem\\Shackleton_Crater_LOLA_POLAR\\DEM.tif",
+  "pixel_m": 5.0,
+  "referencia_z": "Z absoluto en DEM.tif; Z local=Z-Zmin en visualizacion 3D y OBJ",
+  "remuestreo_para_cuadrado_exacto": "bilinear; NO añade detalle nativo",
+  "sin_suavizado_anomalias": true,
+  "anomalías_candidatas": 44,
+  "informe_auditoria": "../../entrega_5km/auditoria/auditoria.json",
+  "advertencias": [
+    "Aún no se verifican exactitud vertical, textura ni obstáculos en terreno",
+    "Señales locales candidatas: no se modifican sin una fuente independiente"
+  ]
+}

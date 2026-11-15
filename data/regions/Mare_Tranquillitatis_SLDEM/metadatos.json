@@ -1,0 +1,51 @@
+{
+  "region": "Mare_Tranquillitatis",
+  "fuente": "SLDEM",
+  "cuerpo": "Luna",
+  "tesela": "PDS",
+  "archivo_origen": "datos_originales\\Luna\\Mare_Tranquillitatis\\SLDEM\\sldem2015_512_00n_30n_000_045.jp2",
+  "centro_planetocentrico": {
+    "lat": 0.68,
+    "lon_este": 23.43
+  },
+  "crs_procesado": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",1737400,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "referencia_vertical_producto": "Radio lunar de referencia 1737400 m; valores escalados a metros",
+  "resolucion_nativa_aproximada_m": 59.225293797166955,
+  "malla_resultado_m": 59.22529,
+  "sin_interpolacion_espacial": true,
+  "dimension_px": [
+    85,
+    85
+  ],
+  "pixeles_validos": 7056,
+  "porcentaje_cobertura": 100.0,
+  "lado_solicitado_km": 5.0,
+  "elevacion_min_m": -1965.5,
+  "elevacion_max_m": -1847.5,
+  "desnivel_m": 118.0,
+  "exageracion_vertical": 1.0,
+  "obj_referencia_xy": "metros locales en el plano del raster",
+  "obj_referencia_z": "altitud menos altitud minima de la ventana, en metros",
+  "notas": "SLDEM2015: escala por unidad del JP2 = 0.5 m, leida del _aux.xml. El JP2 original NO se modifica.",
+  "archivos": [
+    "DEM.tif",
+    "Mapa_2D.tiff",
+    "Mapa_2D.png",
+    "Terreno_3D.html",
+    "Terreno_3D.obj",
+    "metadatos.json"
+  ],
+  "archivo_fuente_para_entrega": "datos_originales\\Luna\\Mare_Tranquillitatis\\SLDEM\\sldem2015_512_00n_30n_000_045.jp2",
+  "extension_ancho_m": 5000.0,
+  "extension_alto_m": 5000.0,
+  "pixel_m": 58.8235294117647,
+  "referencia_z": "Z absoluto en DEM.tif; Z local=Z-Zmin en visualizacion 3D y OBJ",
+  "remuestreo_para_cuadrado_exacto": "bilinear; NO añade detalle nativo",
+  "sin_suavizado_anomalias": true,
+  "anomalías_candidatas": 0,
+  "informe_auditoria": "../../entrega_5km/auditoria/auditoria.json",
+  "advertencias": [
+    "SLDEM original: unidades convertidas a metros mediante Scale=0.5; referencia lunar 1737400 m",
+    "Resolución decamétrica: insuficiente para piedras y obstáculos menores al tamaño de celda"
+  ]
+}

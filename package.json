@@ -1,0 +1,12 @@
+{
+  "name": "terrarover-killa-coders",
+  "private": true,
+  "version": "4.2.0",
+  "type": "module",
+  "description": "TerraRover: Public-facing planetary terrain explorer with numeric Python scientific backend and community GeoTIFF submissions.",
+  "scripts": {
+    "check": "node --check src/app.js && node --check src/ui.js && node --check src/analysis.js && node --check src/live_analysis.js",
+    "serve": "python -m uvicorn backend.api:app --host 127.0.0.1 --port 8000",
+    "test": "node tests/test_frontend.mjs && node tests/test_pages.mjs && node tests/test_live_frontend.mjs && node tests/test_v41_ui.mjs && python -m unittest discover -s tests -p test_*.py"
+  }
+}

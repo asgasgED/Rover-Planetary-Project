@@ -1,0 +1,59 @@
+{
+  "region": "Elysium_Volcanic",
+  "fuente": "MOLA",
+  "cuerpo": "Marte",
+  "tesela": "PDS",
+  "archivo_origen": "datos_originales\\Marte\\MOLA_Tiles\\meg128\\megt44n090hb.img",
+  "centro_planetocentrico": {
+    "lat": 24.74,
+    "lon_este": 146.9
+  },
+  "crs_procesado": "PROJCS[\"Mars_simpCyl_c180\",GEOGCS[\"GCS_Unknown\",DATUM[\"D_Unknown\",SPHEROID[\"S_Unknown\",3396000,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",180],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "referencia_vertical_producto": "Topografía MOLA/GMM3 relativa al areoide marciano (metros)",
+  "resolucion_nativa_aproximada_m": 463.0576672,
+  "malla_resultado_m": 454.54545454545456,
+  "sin_interpolacion_espacial": false,
+  "dimension_px": [
+    11,
+    11
+  ],
+  "pixeles_validos": 121,
+  "porcentaje_cobertura": 100.0,
+  "lado_solicitado_km": 5.0,
+  "elevacion_min_m": 12735.193359375,
+  "elevacion_max_m": 13471.5205078125,
+  "desnivel_m": 736.3271484375,
+  "exageracion_vertical": 1.0,
+  "obj_referencia_xy": "metros locales en el plano del raster",
+  "obj_referencia_z": "altitud menos altitud minima de la ventana, en metros",
+  "notas": "MOLA MEGDR 128 pix/deg, resolución nativa aproximada 463.06 m; cero finito preservado aunque HDR ENVI lo marque como NoData; zonas de observación ausente pueden incluir interpolación. Centro: Centro cartográfico de Elysium Mons (volcán). Centro volcánico identificado; morfología de pequeña escala no resuelta por MOLA",
+  "archivos": [
+    "DEM.tif",
+    "Mapa_2D.tiff",
+    "Mapa_2D.png",
+    "Terreno_3D.html",
+    "Terreno_3D.obj",
+    "metadatos.json"
+  ],
+  "detalle_visual_3d": "Submuestreo solo del HTML/OBJ; GeoTIFF DEM conserva la malla completa",
+  "salto_visual_3d": 1,
+  "pixel_visual_3d_m": 454.54545,
+  "centro_tipo": "Centro volcánico identificado; morfología de pequeña escala no resuelta por MOLA",
+  "centro_descripcion": "Centro cartográfico de Elysium Mons (volcán)",
+  "tesela_mola": "megt44n090hb",
+  "extension_ancho_m": 5000.0,
+  "extension_alto_m": 5000.0,
+  "remuestreo": "Bilineal hacia malla métrica; no incrementa detalle real",
+  "uso_recomendado": "SOLO_RELIEVE_REGIONAL: no inferir obstáculos, dunas o evaporitas a escala pequeña",
+  "archivo_fuente_para_entrega": "resultado_dem\\Elysium_Volcanic_MOLA\\DEM.tif",
+  "pixel_m": 454.54545454545456,
+  "referencia_z": "Z absoluto en DEM.tif; Z local=Z-Zmin en visualizacion 3D y OBJ",
+  "remuestreo_para_cuadrado_exacto": "bilinear; NO añade detalle nativo",
+  "sin_suavizado_anomalias": true,
+  "anomalías_candidatas": 0,
+  "informe_auditoria": "../../entrega_5km/auditoria/auditoria.json",
+  "advertencias": [
+    "Resolución mayor a 100m: no representar obstáculos pequeños ni calcular similitud a escala rover",
+    "Menos de 20 celdas NATIVAS en 5 km: comparación morfológica fina no válida"
+  ]
+}

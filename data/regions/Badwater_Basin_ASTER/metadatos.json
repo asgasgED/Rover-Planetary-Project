@@ -1,0 +1,62 @@
+{
+  "region": "Badwater_Basin",
+  "fuente": "ASTER",
+  "tesela": "n36w117",
+  "archivo_origen": "datos_originales\\ASTER\\ASTGTMV003_N36W117_dem.nc",
+  "centro_wgs84": {
+    "lat": 36.2298,
+    "lon": -116.7674
+  },
+  "producto": "Modelo de elevacion",
+  "referencia_vertical_producto": "EGM96 (NASADEM/SRTM/ASTER)",
+  "crs_procesado": "EPSG:32611",
+  "resolucion_fuente_grados_si_corresponde": [
+    0.0002777777777777778,
+    0.0002777777777777778
+  ],
+  "malla_resultado_m": 30.0,
+  "nota_resolucion": "Los valores se han remuestreado a la malla UTM; no incrementa el detalle nativo.",
+  "dimension_px": [
+    162,
+    162
+  ],
+  "pixeles_validos": 27889,
+  "porcentaje_cobertura": 100.0,
+  "lado_solicitado_km": 5.0,
+  "elevacion_min_m": -144.828,
+  "elevacion_max_m": 1302.733,
+  "desnivel_m": 1447.561,
+  "exageracion_vertical": 1.0,
+  "obj_referencia_xy": "Coordenadas locales en metros desde la esquina suroeste del raster",
+  "obj_referencia_z": "Z = elevacion original - elevacion minima, en metros",
+  "origen_utm_raster": {
+    "x_izquierda": 518397.71380081866,
+    "y_arriba": 4011967.1985602705
+  },
+  "centro_utm": {
+    "x": 520902.71380081866,
+    "y": 4009462.1985602705
+  },
+  "archivos": [
+    "DEM.tif",
+    "Mapa_2D.tiff",
+    "Mapa_2D.png",
+    "Terreno_3D.html",
+    "Terreno_3D.obj",
+    "metadatos.json"
+  ],
+  "cuerpo": "Tierra",
+  "archivo_fuente_para_entrega": "resultado_dem\\Badwater_Basin_ASTER\\DEM.tif",
+  "extension_ancho_m": 5000.0,
+  "extension_alto_m": 5000.0,
+  "pixel_m": 30.864197530864196,
+  "resolucion_nativa_aproximada_m": 30.87,
+  "referencia_z": "Z absoluto en DEM.tif; Z local=Z-Zmin en visualizacion 3D y OBJ",
+  "remuestreo_para_cuadrado_exacto": "bilinear; NO añade detalle nativo",
+  "sin_suavizado_anomalias": true,
+  "anomalías_candidatas": 0,
+  "informe_auditoria": "../../entrega_5km/auditoria/auditoria.json",
+  "advertencias": [
+    "Resolución decamétrica: insuficiente para piedras y obstáculos menores al tamaño de celda"
+  ]
+}
