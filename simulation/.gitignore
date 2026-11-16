@@ -1,0 +1,33 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# ROS 2
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Webots
+*.wblog
+
+# Logs y temporales
+*.log
+.DS_Store
+
+# Entornos y archivos generados
+.venv/
+__pycache__/
+*.pyc
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+*.wblog
+*.log
+
+# GeoTIFF originales pesados
+terrains/imported_terrains/*.tif
+!terrains/imported_terrains/sample_analog_dem.tif
+
+# Archivos del sistema
+.DS_Store

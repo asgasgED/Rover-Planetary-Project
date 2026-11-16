@@ -1,0 +1,20 @@
+{
+  "rover": "Sojourner",
+  "terrain": "DEM",
+  "distance_travelled": 20.154,
+  "average_speed": 0.0448,
+  "elapsed_time_sec": 450.0,
+  "maximum_slope": 20.34,
+  "max_roll_deg": 5.28,
+  "max_pitch_deg": 19.93,
+  "max_uninterrupted_distance": 20.154,
+  "stall_events": 0,
+  "stability_loss_events": 0,
+  "route_completion": 0.4,
+  "simulation_status": "timeout_partial",
+  "artifacts": {
+    "csv": "/home/cesar/terrarover_rover/results/csv/DEM_telemetry.csv",
+    "json": "/home/cesar/terrarover_rover/results/json/DEM_results.json",
+    "plot": "/home/cesar/terrarover_rover/results/plots/DEM_analysis.png"
+  }
+}

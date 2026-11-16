@@ -1,0 +1,20 @@
+{
+  "rover": "Sojourner",
+  "terrain": "Copernicus_DSM_10_S14_00_W073_00_DEM",
+  "distance_travelled": 20.694,
+  "average_speed": 0.046,
+  "elapsed_time_sec": 450.0,
+  "maximum_slope": 9.64,
+  "max_roll_deg": 9.63,
+  "max_pitch_deg": 6.36,
+  "max_uninterrupted_distance": 20.694,
+  "stall_events": 0,
+  "stability_loss_events": 0,
+  "route_completion": 2.0,
+  "simulation_status": "timeout_partial",
+  "artifacts": {
+    "csv": "/home/cesar/terrarover_rover/results/csv/Copernicus_DSM_10_S14_00_W073_00_DEM_telemetry.csv",
+    "json": "/home/cesar/terrarover_rover/results/json/Copernicus_DSM_10_S14_00_W073_00_DEM_results.json",
+    "plot": "/home/cesar/terrarover_rover/results/plots/Copernicus_DSM_10_S14_00_W073_00_DEM_analysis.png"
+  }
+}
