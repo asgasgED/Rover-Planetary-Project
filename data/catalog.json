@@ -4634,28 +4634,6 @@
       "zero_pixels": null
     },
     {
-      "id": "Mare_Imbrium_SLDEM",
-      "title": "Mare Imbrium",
-      "body": "Luna",
-      "source": "SLDEM",
-      "lat": 32.8,
-      "lon": 344.4,
-      "area_km2": 25,
-      "status": "pendiente",
-      "assets": {},
-      "metrics": null,
-      "profile": null,
-      "histogram": null,
-      "elevation_min_m": null,
-      "elevation_max_m": null,
-      "native_resolution_m": 59.2,
-      "coverage_pct": null,
-      "anomaly_count": null,
-      "verdict": "SIN_VALIDACION_LOCAL",
-      "provenance": "Site catalogued; final DEM verification pending",
-      "warning": "Regional topography only; composition and rover mobility unverified"
-    },
-    {
       "id": "Mare_Tranquillitatis_SLDEM",
       "title": "Mare Tranquillitatis",
       "body": "Luna",
