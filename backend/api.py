@@ -2,7 +2,9 @@
 
 No third-party AI credentials or simulation execution are required.
 """
+
 from __future__ import annotations
+
 from contextlib import asynccontextmanager
 from io import BytesIO
 import json
@@ -11,6 +13,7 @@ import re
 
 import matplotlib
 matplotlib.use('Agg')
+
 from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.responses import JSONResponse, FileResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -18,6 +21,9 @@ from pydantic import BaseModel, Field
 
 from .analysis_engine import read_dem, numerical_report
 from .community import import_new_team_deliverables, submit_community_dem
+
+# NUEVO: router de simulación
+from .simulation.routes import router as simulation_router
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'data' / 'regions'
@@ -32,8 +38,16 @@ async def lifespan(_app: FastAPI):
         print(f'[TerraRover] Auto-import warning: {type(exc).__name__}: {exc}')
     yield
 
-app = FastAPI(title='TerraRover Terrain Research API', version='4.2.0',
-              docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
+app = FastAPI(
+    title='TerraRover Terrain Research API',
+    version='4.2.0',
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
+    lifespan=lifespan
+)
+
+app.include_router(simulation_router)
 
 class PairRequest(BaseModel):
     a: str = Field(min_length=2, max_length=100)
