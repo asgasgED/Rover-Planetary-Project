@@ -18,10 +18,6 @@ const prefs=typeof localStorage!=='undefined'?localStorage:{getItem:()=>null,set
 const s={body:'Todos',q:'',mapBody:'Tierra',mapId:'Timanfaya_ASTER',mapZoom:1,mapX:0,mapY:0,
  regionTab:'2d',analysisId:'Timanfaya_ASTER',compareA:'Timanfaya_ASTER',compareB:'',discoverId:'Jezero_MOLA',modal:null,navOpen:false,
  liveReport:null,aiReport:null,liveError:null,aiError:null,liveBusy:false,aiBusy:false,apiInfo:null,aiCheck:null,aiUseVision:false,uploadBusy:false,uploadMessage:'',statusFilter:'Todos',resultQ:'',planetIndex:0,sideCollapsed:prefs.getItem('terrarover-sidebar')==='compact',theme:'light'};
-// Live mission planner and recorded Webots results are deliberately separate.
-let simulationView='planner';
-// Recorded Webots results: isolated from scientific DEM analysis state.
-const sim={runs:[],selected:'',record:null,health:null,loaded:false,loading:false,detailsLoading:false,error:'',detailsError:'',requestSeq:0};
 const root=document.getElementById('app');
 if(document.documentElement)document.documentElement.dataset.theme='light';
 const items=()=>catalog.items||[];
@@ -42,10 +38,7 @@ function shell(){
  <div class="sidebar-bottom"><div class="side-project"><span class="overline" style="font-size:9px">MISSION / TERRESTRIAL ANALOGUES</span><strong>From Earth to other worlds.</strong><p>Real topography · 5 × 5 km per site</p><div class="tiny-line"><span></span></div></div><div class="status-online"><span class="pulse"></span><span>Planetary exploration · 2026</span></div></div></aside>
  <div class="workspace"><header class="topbar"><div class="topbar-left"><button type="button" class="round-btn collapse-btn" data-action="collapse" aria-label="Collapse or expand menu" title="Collapse / expand menu">${icon('menu')}</button><span class="topbar-caption"><span class="overline">KILLA CODERS</span><span class="topbar-divider"></span><strong>${e(getPageTitle(active))}</strong></span></div><div class="topbar-right"><button class="search-btn" data-action="search" aria-label="Search regions">${icon('search')}<span>Search region</span><kbd class="keycap">/</kbd></button><button class="round-btn" data-action="upload-public" aria-label="Submit your own DEM" title="Submit your own DEM">${icon('upload')}</button><span class="avatar" title="TerraRover">TR</span></div></header><main class="content ${active==='explorador'?'no-pad':''}" id="main-content">${pageContent(active)}</main></div></div>${s.modal?modal():''}`;
  if(active==='explorador')setupMap();
- if(active==='simulacion'){
-  if(simulationView==='planner')setupSimulation();
-  else if(!sim.loaded&&!sim.loading)loadSimulationRuns();
- }
+ if(active==='simulacion')setupSimulation();
 }
 function pageContent(id){
  if(id==='inicio')return dashboard();
@@ -136,160 +129,10 @@ function discoverPage(){
  <div class="notice" style="margin-top:18px">${icon('info')}<span>These scores compare mathematical feature vectors only. They are not probabilities of geological analogy. Resolution differences, especially Mars MOLA, limit physical interpretation.</span></div></section>
  <div class="discover-results">${matches.length?matches.map((x,i)=>`<article class="card discover-card"><div><small>EARTH CANDIDATE / ${String(i+1).padStart(2,'0')}</small><h3>${e(x.r.title)}</h3><p>${e(x.r.source)} · ${nice(x.r.native_resolution_m,1)} m native spacing</p></div><div class="discover-score"><strong>${nice(x.score,4)}</strong><small>uncalibrated cos(θ)</small></div><div class="discover-actions"><a class="btn btn-outline" href="#/region/${encodeURIComponent(x.r.id)}">Terrain details ${icon('arrow')}</a><button class="btn btn-primary" data-action="compare-match" data-value="${e(x.r.id)}" data-reference="${e(ref?.id)}">Compare ${icon('compare')}</button></div></article>`).join(''):'<div class="chart-empty">Choose a published planetary reference to find potential analog sites.</div>'}</div>`;
 }
-/* ---------------------------------------------------------------------------
- * Webots recorded-run viewer. Uses existing /api/simulation/* GET endpoints.
- * These are historic runs, NOT real-time Webots sessions.
- * --------------------------------------------------------------------------- */
-const simNumber=(value,digits=2)=>Number.isFinite(Number(value))&&value!==null&&value!==''?nice(value,digits):'—';
-const simRunName=id=>String(id||'').replace(/_/g,' ').replace(/\bDEM\b/g,'DEM');
-const simIsValidId=id=>typeof id==='string'&&/^[A-Za-z0-9_-]{1,160}$/.test(id);
-const simStatusLabel=status=>({completed:'Completed',timeout_partial:'Partial · time limit',running:'Recorded as running',failed:'Failed',stopped:'Stopped'})[status]||String(status||'Not reported').replace(/_/g,' ');
-const simMetric=(label,value,unit,foot='')=>`<div class="sim-metric"><span>${e(label)}</span><strong>${e(value)}${value==='—'?'':`<small> ${e(unit)}</small>`}</strong>${foot?`<p>${e(foot)}</p>`:''}</div>`;
-function simBase(runId){return '/api/simulation/runs/'+encodeURIComponent(runId)}
-function simRefresh(){if(route()==='simulacion'&&simulationView==='records')refreshOnlyPage()}
-async function simJSON(url){
- const resp=await fetch(url,{headers:{Accept:'application/json'},cache:'no-store'});
- let payload;
- try{payload=await resp.json()}catch{throw new Error(`Simulation API returned a non-JSON response (HTTP ${resp.status}).`)}
- if(!resp.ok)throw new Error(payload?.detail||payload?.message||`Simulation API HTTP ${resp.status}`);
- return payload;
-}
-async function loadSimulationRuns(force=false){
- if(sim.loading)return;
- if(sim.loaded&&!force)return;
- sim.loading=true;sim.error='';simRefresh();
- try{
-  const [list,health]=await Promise.all([
-   simJSON('/api/simulation/runs'),
-   simJSON('/api/simulation/health').catch(()=>null)
-  ]);
-  const records=Array.isArray(list?.runs)?list.runs.filter(x=>simIsValidId(x?.run_id)):[];
-  sim.runs=records;sim.health=health;sim.loaded=true;
-  const exists=records.some(x=>x.run_id===sim.selected);
-  if(!exists){
-   sim.selected=records.find(x=>x.run_id==='sample_analog_dem')?.run_id||records[0]?.run_id||'';
-   sim.record=null;
-  }
-  sim.detailsError='';
- }catch(err){sim.error=String(err?.message||err);sim.loaded=false;sim.runs=[];sim.record=null;}
- finally{sim.loading=false;simRefresh()}
- if(sim.loaded&&sim.selected)await loadSimulationRecord(sim.selected);
-}
-async function loadSimulationRecord(id){
- if(!simIsValidId(id))return;
- const requestId=++sim.requestSeq;
- sim.selected=id;sim.record=null;sim.detailsError='';sim.detailsLoading=true;simRefresh();
- try{
-  const data=await simJSON(simBase(id)+'/results');
-  if(requestId!==sim.requestSeq)return;
-  if(!data||data.run_id!==id||typeof data.result!=='object'||data.result===null||Array.isArray(data.result))throw new Error('The simulation result has an invalid format.');
-  sim.record=data;
- }catch(err){if(requestId===sim.requestSeq)sim.detailsError=String(err?.message||err)}
- finally{if(requestId===sim.requestSeq){sim.detailsLoading=false;simRefresh()}}
-}
-function simRecordPanel(){
- if(sim.detailsLoading)return `<section class="sim-card sim-pending" role="status">${icon('refresh')} Loading recorded Webots telemetry…</section>`;
- if(sim.detailsError)return `<div class="notice science-error" role="alert">${icon('warning')} ${e(sim.detailsError)}</div>`;
- const wrapper=sim.record;
- if(!wrapper)return `<section class="sim-card sim-pending">Choose a recorded simulation to view its measured telemetry.</section>`;
- const r=wrapper.result, id=sim.selected;
- const linkCsv=wrapper.artifacts?.csv===simBase(id)+'/artifacts/csv';
- const linkPlot=wrapper.artifacts?.plot===simBase(id)+'/artifacts/plot';
- const status=String(r.simulation_status||'unknown');
- const finished=status==='completed';
- return `<section class="sim-card sim-record" aria-label="Webots telemetry">
-  <div class="sim-section-heading"><div><span class="overline">WEBOTS / ARCHIVED EXPERIMENT</span><h2>${e(simRunName(r.terrain||id))}</h2><p>Rover: ${e(r.rover||'Not reported')} · Recorded simulation · ${e(simStatusLabel(status))}</p></div><span class="sim-state ${finished?'sim-done':'sim-partial'}">${icon(finished?'check':'info')} ${e(simStatusLabel(status))}</span></div>
-  <div class="sim-metrics">
-   ${simMetric('Distance travelled',simNumber(r.distance_travelled,3),'m','Recorded odometry')}
-   ${simMetric('Mean speed',simNumber(r.average_speed,4),'m/s','From exported experiment')}
-   ${simMetric('Elapsed time',simNumber(r.elapsed_time_sec,1),'s','Simulated duration')}
-   ${simMetric('Route completion',simNumber(r.route_completion,2),'%','Reported by the controller')}
-  </div>
-  <div class="sim-section-heading sim-section-tight"><div><span class="overline">ROVER / TERRAIN DYNAMICS</span><h3>Mobility and stability</h3></div></div>
-  <div class="sim-spec-grid">
-   <div><span>Maximum slope</span><strong>${simNumber(r.maximum_slope,2)}°</strong></div>
-   <div><span>Max. roll</span><strong>${simNumber(r.max_roll_deg,2)}°</strong></div>
-   <div><span>Max. pitch</span><strong>${simNumber(r.max_pitch_deg,2)}°</strong></div>
-   <div><span>Max. uninterrupted distance</span><strong>${simNumber(r.max_uninterrupted_distance,3)} m</strong></div>
-   <div><span>Stall events</span><strong>${simNumber(r.stall_events,0)}</strong></div>
-   <div><span>Stability loss events</span><strong>${simNumber(r.stability_loss_events,0)}</strong></div>
-  </div>
-  <div class="notice" style="margin-top:18px">${icon('info')}<span>These measurements come from a previously exported Webots run. A completed status is the controller's reported state, not an independently verified mission outcome.</span></div>
- </section>
- <section class="sim-card sim-plot-card"><div class="sim-section-heading"><div><span class="overline">EVIDENCE / SCIENTIFIC OUTPUT</span><h3>Recorded trajectory and telemetry plots</h3><p>Plots supplied by the original simulation; no generated or interpolated mission data.</p></div></div>
-  ${linkPlot?`<a class="sim-plot-link" href="${simBase(id)+'/artifacts/plot'}" target="_blank" rel="noopener noreferrer" aria-label="Open full resolution Webots report"><img src="${simBase(id)+'/artifacts/plot'}" alt="Webots trajectory, velocity and stability plots for ${e(simRunName(id))}" loading="lazy"/><span>Open full-resolution plot ${icon('external')}</span></a>`:`<div class="sim-plot-missing">${icon('chart')} No validated PNG plot is available for this run.</div>`}
-  <div class="sim-downloads">
-    ${linkCsv?`<a class="btn btn-primary" href="${simBase(id)+'/artifacts/csv'}" download>${icon('download')} Download telemetry CSV</a>`:''}
-    ${linkPlot?`<a class="btn btn-outline" href="${simBase(id)+'/artifacts/plot'}" target="_blank" rel="noopener noreferrer">${icon('external')} View PNG report</a>`:''}
-    <button class="btn btn-outline" type="button" data-action="sim-json">${icon('download')} Export result JSON</button>
-  </div>
- </section>`;
-}
-function simStyles(){return `<style>
-.sim-page{display:grid;gap:18px;max-width:1480px;margin:0 auto;padding-bottom:30px}
-.sim-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:18px}
-.sim-head .sim-label{display:inline-flex;align-items:center;gap:7px;color:#B80C09;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.sim-head h1{margin:7px 0 9px}.sim-head p{max-width:750px;color:#555;font-size:14px;line-height:1.65}
-.sim-runtime{display:inline-flex;align-items:center;gap:8px;border:1px solid #DEDEDE;border-radius:100px;padding:9px 13px;background:#fff;color:#303030;font-size:12px;font-weight:700}
-.sim-runtime svg{width:16px;height:16px;color:#FC3C23}
-.sim-card{background:#fff;border:1px solid #e2e2e2;border-radius:15px;padding:24px;min-width:0}
-.sim-toolbar{display:flex;gap:16px;justify-content:space-between;align-items:flex-end;flex-wrap:wrap}
-.sim-select-group{display:grid;gap:8px;flex:1 1 340px;max-width:660px}
-.sim-select-group label{color:#555;font-size:12px;font-weight:700;letter-spacing:.04em}
-.sim-select-group select{width:100%;min-height:44px;cursor:pointer}
-.sim-toolbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sim-toolbar-actions .btn{min-height:44px}
-.sim-section-heading{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:19px}
-.sim-section-heading h2{font-size:clamp(23px,2.5vw,30px);margin:5px 0 5px;overflow-wrap:anywhere}
-.sim-section-heading h3{font-size:20px;margin:5px 0}
-.sim-section-heading p{color:#606060;font-size:13px;line-height:1.6}
-.sim-section-tight{margin-top:28px}
-.sim-state{display:inline-flex;gap:6px;align-items:center;font-size:12px;font-weight:700;border-radius:100px;padding:8px 12px;white-space:normal}
-.sim-state .i{height:14px;width:14px}
-.sim-done{background:#eef8f1;color:#217a41}.sim-partial{background:#fff4e6;color:#94580b}
-.sim-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
-.sim-page .sim-metrics>div.sim-metric{background:#101115;border-radius:12px;padding:18px 17px;min-height:122px;color:#fff;min-width:0;font-size:inherit;font-weight:inherit}
-.sim-metric>span{color:#d6d6d8;font-weight:700;font-size:12px}
-.sim-metric strong{display:block;white-space:normal;overflow-wrap:anywhere;font-size:clamp(22px,2.3vw,31px);letter-spacing:-.04em;margin-top:11px}
-.sim-metric small{font-size:12px;letter-spacing:normal;color:#cbcbcb}
-.sim-metric p{margin-top:8px;font-size:11px;color:#b4b4b4}
-.sim-spec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.sim-spec-grid>div{border:1px solid #e6e6e6;background:#fafafa;border-radius:10px;padding:15px;min-width:0}
-.sim-spec-grid span{display:block;font-size:12px;color:#626262;margin-bottom:7px}
-.sim-spec-grid strong{font-size:21px;color:#101010;overflow-wrap:anywhere}
-.sim-plot-card{margin-top:0}.sim-plot-link{display:block;border:1px solid #eee;border-radius:10px;overflow:hidden;background:#fafafa}
-.sim-plot-link img{display:block;width:100%;height:auto;max-height:730px;object-fit:contain}
-.sim-plot-link>span{display:flex;justify-content:center;gap:6px;padding:12px;background:#fff;color:#555;font-size:12px}
-.sim-plot-link>span svg{height:15px;width:15px}
-.sim-plot-missing,.sim-pending{min-height:170px;display:flex;align-items:center;justify-content:center;gap:10px;flex-direction:column;color:#6b6b6b;text-align:center}
-.sim-plot-missing svg{width:35px;height:35px}.sim-downloads{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
-.sim-footnote{padding:17px 19px;border-radius:12px;border:1px solid #e6e6e6;background:#fff;color:#5b5b5b;font-size:12px;line-height:1.6}
-.sim-footnote strong{color:#111}.sim-page .notice{display:flex;align-items:flex-start;gap:9px}
-.sim-empty{border:1px dashed #ddd;border-radius:14px;padding:42px 18px;text-align:center;background:#fff;color:#555}
-.sim-empty h3{margin-bottom:8px}.sim-empty .i{height:29px;width:29px;color:#fc3c23;margin-bottom:10px}
-@media(max-width:1100px){.sim-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:650px){.sim-page{gap:13px}.sim-card{padding:16px}.sim-metrics,.sim-spec-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sim-spec-grid strong{font-size:17px}.sim-metric{padding:15px 12px}.sim-toolbar-actions{width:100%}.sim-head h1{font-size:32px}}
-@media(max-width:385px){.sim-metrics,.sim-spec-grid{grid-template-columns:1fr}}
-</style>`}
-function recordedSimulationPage(){return `${simStyles()}<div class="sim-page">
- <div class="sim-head"><div><span class="sim-label">${icon('rover')} WEBOTS / ROVER RESEARCH</span><h1>Rover Simulation</h1><p>Inspect authentic Sojourner rover experiments, measured mobility and terrain stability. All results below come from previously exported Webots simulations.</p></div><div class="sim-runtime">${icon('activity')} ARCHIVED RUNS · NOT LIVE</div></div>
- <div class="sim-card sim-toolbar"><div class="sim-select-group"><label for="simRunSelect">SELECT RECORDED EXPERIMENT</label><select id="simRunSelect" class="select" ${!sim.runs.length?'disabled':''} aria-label="Choose a recorded Webots simulation">${sim.runs.length?sim.runs.map(x=>`<option value="${e(x.run_id)}" ${sim.selected===x.run_id?'selected':''}>${e(simRunName(x.run_id))}</option>`).join(''):'<option value="">No records loaded</option>'}</select></div><div class="sim-toolbar-actions"><span class="sim-runtime">${icon('file')} ${sim.loading?'Loading…':sim.loaded?sim.runs.length+' recorded runs':'Not loaded'}</span><button class="btn btn-outline" type="button" data-action="sim-refresh" ${sim.loading?'disabled':''}>${icon('refresh')} Refresh records</button></div></div>
- ${sim.error?`<div class="notice science-error" role="alert">${icon('warning')}<span>Could not load simulation records: ${e(sim.error)}. Confirm the simulation API endpoints in this Preview deployment.</span></div>`:''}
- ${sim.loading?`<section class="sim-card sim-pending" role="status">${icon('refresh')} Connecting to the simulation results API…</section>`:''}
- ${!sim.loading&&!sim.error&&!sim.runs.length?`<div class="sim-empty">${icon('rover')}<h3>No recorded simulations found</h3><p>The platform will show only run data actually supplied by the simulation API.</p></div>`:''}
- ${!sim.loading&&!sim.error&&sim.runs.length?simRecordPanel():''}
- <div class="sim-footnote"><strong>Scientific scope:</strong> these outputs describe archived Webots experiments. They do not provide a live rover viewer, new simulation execution, verified planetary surface hazards or navigational safety. Live execution requires a separately deployed Webots simulation service.</div>
- </div>`;}
-
-
-function simulationPage(){
- const tab=(view,label)=>`<button type="button" class="btn ${simulationView===view?'btn-primary':'btn-outline'}" data-action="simulation-tab" data-value="${view}" aria-pressed="${simulationView===view}">${label}</button>`;
- return `<section aria-label="Rover simulation modes" style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px;align-items:center">
-   ${tab('planner','Mission planner / Webots')}
-   ${tab('records','Recorded experiments')}
-   <span class="fine" style="margin-left:auto;font-size:12px">Webots execution requires an external simulator service</span>
- </section>${simulationView==='planner'?renderSimulationPage():recordedSimulationPage()}`;
-}
+// Mission-only simulation interface. Telemetry comes exclusively from the
+// current Webots run returned by /api/simulation/runs/current; archived demos
+// are intentionally not displayed or requested by the public frontend.
+function simulationPage(){return renderSimulationPage();}
 
 function modal(){
  if(s.modal==='workflow')return `<div class="modal-backdrop" role="presentation" data-action="close"><div class="modal" role="dialog" aria-modal="true" aria-label="Workflow"><div class="modal-header"><div><div class="overline">METHOD / EXPLORATORY VERSION</div><h2>From DEM to analog candidate</h2></div><button class="round-btn" data-action="close" aria-label="Close">${icon('close')}</button></div><div class="modal-body"><div class="workflow-detail">${[['01','Acquire DEMs','ASTER, NASADEM, SRTM, MOLA, SLDEM and LOLA'],['02','Prepare 5 × 5 km','Metric reprojection, masks, heights and 3D viewer'],['03','Characterize','Slope, local roughness, TPI, hypsometric integral and metrics'],['04','Compare','Initial cosine score; resolution-sensitive exploratory comparisons']].map(([n,t,d])=>`<div><em>${n}</em><b>${t}</b><p>${d}</p></div>`).join('')}</div><div class="notice">${icon('warning')}<span>Scores do not prove geological equivalence. MOLA (~463 m/pixel) cannot resolve rover-sized obstacles.</span></div></div></div></div>`;
@@ -301,34 +144,15 @@ function modal(){
 }
 function refreshOnlyPage(){
  const active=route();
- if(active==='simulacion'&&simulationView==='planner')destroySimulation();
+ if(active==='simulacion')destroySimulation();
  const main=document.getElementById('main-content');
  if(!main)return;
  main.innerHTML=pageContent(active);
  if(active==='explorador')setupMap();
- if(active==='simulacion'&&simulationView==='planner')setupSimulation();
+ if(active==='simulacion')setupSimulation();
 }
 document.addEventListener('click',async ev=>{
  const n=ev.target.closest('[data-action]');if(!n)return;let action=n.dataset.action,v=n.dataset.value;
- if(action==='simulation-tab'){
-  if(!['planner','records'].includes(v)||simulationView===v)return;
-  destroySimulation();
-  simulationView=v;
-  refreshOnlyPage();
-  if(v==='records'&&!sim.loaded&&!sim.loading)loadSimulationRuns();
-  return;
- }
- 
- if(action==='sim-refresh'){await loadSimulationRuns(true);return;}
- if(action==='sim-json'){
-  if(!sim.record||!simIsValidId(sim.selected))return;
-  const exportPayload={run_id:sim.selected,mode:'recorded',result:sim.record.result};
-  const file=new Blob([JSON.stringify(exportPayload,null,2)],{type:'application/json'});
-  const href=URL.createObjectURL(file);const a=document.createElement('a');
-  a.href=href;a.download=sim.selected+'_results.json';document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(href),5000);
-  return;
- }
  if(action==='runAnalysis'){
    const a=s.compareA,b=s.compareB;
    if(!a||!b||a===b)return;
@@ -388,7 +212,6 @@ document.addEventListener('input',ev=>{
  }
 });
 document.addEventListener('change',ev=>{
- if(ev.target.id==='simRunSelect'){loadSimulationRecord(ev.target.value);return;}
  if(ev.target.id==='discoverSelect'){s.discoverId=ev.target.value;refreshOnlyPage();return;}
  if(ev.target.id==='analysisSelect'){s.analysisId=ev.target.value;refreshOnlyPage()}
  if(ev.target.id==='cmpA'){s.compareA=ev.target.value;s.liveReport=s.aiReport=null;s.liveError=s.aiError=null;refreshOnlyPage()}
