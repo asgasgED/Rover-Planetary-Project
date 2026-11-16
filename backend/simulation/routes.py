@@ -170,3 +170,99 @@ def get_simulation_artifact(run_id: str, kind: str):
         media_type=media_type,
         headers={"X-Content-Type-Options": "nosniff"},
     )
+
+@router.get("/status")
+def webots_status():
+    return {
+        "service": "terrarover-simulation",
+        "status": "available",
+        "webots_installed": False,
+        "webots_live": False,
+        "execution_scope": "preview-readonly",
+        "stream_mode": None,
+        "message": "Webots execution is not connected.",
+    }
+
+
+@router.get("/terrains")
+def simulation_terrains():
+    catalog_path = ROOT / "data" / "catalog.json"
+    regions_dir = ROOT / "data" / "regions"
+
+    try:
+        catalog = json.loads(
+            catalog_path.read_text(encoding="utf-8")
+        )
+    except (OSError, ValueError):
+        raise HTTPException(
+            status_code=503,
+            detail="Terrain catalog unavailable.",
+        )
+
+    terrains = []
+
+    for region in catalog.get("items", []):
+        terrain_id = region.get("id", "")
+
+        if not isinstance(terrain_id, str):
+            continue
+
+        if not SAFE_RUN.fullmatch(terrain_id):
+            continue
+
+        folder = regions_dir / terrain_id
+        preview = folder / "Mapa_2D.png"
+        dem = folder / "DEM.tif"
+
+        # DEM presence does not imply Webots is running.
+        has_dem = dem.is_file()
+
+        terrains.append({
+            "id": terrain_id,
+            "name": region.get("title") or terrain_id,
+            "body": region.get("body", "Unknown"),
+            "source": region.get("source", "Catalog"),
+
+            "has_dem": has_dem,
+            "has_world": False,
+            "has_rgb_map": preview.is_file(),
+            "has_embedded_heights": False,
+
+            # Disabled until a real Webots service
+            # implements parcel generation and execution.
+            "can_simulate": False,
+            "can_create_parcel": False,
+
+            "synthetic": False,
+            "lfs_missing": False,
+
+            "extent_x": 5000.0,
+            "extent_y": 5000.0,
+
+            "native_resolution_m": region.get(
+                "native_resolution_m"
+            ),
+
+            "preview_url": (
+                f"/data/regions/{terrain_id}/Mapa_2D.png"
+                if preview.is_file()
+                else None
+            ),
+
+            "warning": (
+                "Terrain preview only. Webots simulation "
+                "is not connected in this deployment."
+            ),
+        })
+
+    return terrains
+
+
+@router.get("/runs/current")
+def current_simulation():
+    return {
+        "status": "idle",
+        "webots_live": False,
+        "stream_ready": False,
+        "message": "No live Webots execution available.",
+    }
