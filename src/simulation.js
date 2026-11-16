@@ -4,6 +4,15 @@ const BASE='/api/simulation';
 const model={terrains:[],terrainId:'',terrain:null,points:[],center:null,environment:'earth',
     parcelWidth:20,parcelHeight:20,seconds:450,run:null,enabled:false,loading:false,mapMode:'center'};
 let polling=null, alive=false;
+// Show only runs launched by this browser tab, not the globally latest Webots job.
+const SESSION_RUN_KEY='terrarover-current-mission';
+let ownRunId='';
+try{ownRunId=sessionStorage.getItem(SESSION_RUN_KEY)||''}catch{}
+function rememberOwnRun(id){
+ ownRunId=typeof id==='string'&&/^[0-9a-f]{12}$/.test(id)?id:'';
+ try{if(ownRunId)sessionStorage.setItem(SESSION_RUN_KEY,ownRunId);else sessionStorage.removeItem(SESSION_RUN_KEY)}catch{}
+}
+
 const f=(v,n=1)=>Number.isFinite(Number(v))?Number(v).toFixed(n):'—';
 const safe=x=>esc(String(x??''));
 const template=()=>`<section class="page-heading"><div><span class="overline">KILLA CODERS / ROBOTICS LAB</span><h1>Rover Simulation</h1><p>Explore published RGB maps, select a terrain parcel, run a real Webots rover and inspect actual telemetry.</p></div><span class="sim-status" id="simServerStatus">Checking engine…</span></section>
@@ -30,7 +39,7 @@ const template=()=>`<section class="page-heading"><div><span class="overline">KI
 <button type="button" class="btn btn-outline" data-sim-camera="overview" disabled>🌐 Terrain Overview</button>
 </div><div id="simCameraStatus" class="sim-camera-status" role="status">La cámara seguirá al rover cuando inicies una misión.</div>
 <div id="simViewerHealth" class="sim-viewer-health" role="status">El visor se conectará automáticamente al iniciar la misión.</div><div id="simRunStatus" class="sim-run-status">No running mission.</div></div>
-<div class="sim-card"><div class="sim-header"><div><span class="overline">REAL-WORLD MEASUREMENTS FROM THE SIMULATOR</span><h2>Telemetry & results</h2></div><span id="simOutcome" class="sim-status">Awaiting run</span></div>
+<div class="sim-card"><div class="sim-header"><div><span class="overline">WEBOTS / SIMULATED ROVER MEASUREMENTS</span><h2>Telemetry & results</h2></div><span id="simOutcome" class="sim-status">Awaiting run</span></div>
 <div class="sim-metrics" id="simMetrics"><div>—<small>Distance · m</small></div><div>—<small>Velocity · m/s</small></div><div>—<small>Roll · °</small></div><div>—<small>Pitch · °</small></div></div>
 <div id="simReport" class="sim-results-note">Metrics become available only after a real simulation publishes telemetry. No fabricated data.</div><div class="sim-downloads" id="simDownloads"></div><div class="sim-plot-container" id="simPlot"></div>
 <div class="sim-alert" id="simError" role="status" hidden></div></div></section></div>
@@ -148,6 +157,8 @@ function onViewerMessage(event){
 }
 export async function setupSimulation(){
  destroySimulation(); alive=true;
+ // Never carry results over from a previous page visit or another run.
+ model.run=null;
  if(typeof window.addEventListener==='function')window.addEventListener('message',onViewerMessage);
  const map=el('simMap');if(!map)return;
  document.querySelectorAll('[data-sim-camera]').forEach(btn=>btn.addEventListener('click',async()=>{
@@ -198,6 +209,8 @@ export async function setupSimulation(){
    model.seconds=Math.max(30,Math.min(3600,Number(el('simDuration').value)||450));
    model.environment=el('simEnvironment').value;
    const result=await post('/runs',{terrain_id:model.terrainId,points:model.points,max_duration_sec:model.seconds,environment:model.environment});
+   if(!result?.id)throw Error('Webots did not return a valid run ID.');
+   rememberOwnRun(result.id);
    outputRun(result);
   }catch(err){showError(err.message)}finally{setBusy(false)}
  });
@@ -210,10 +223,10 @@ export async function setupSimulation(){
    const currentID=model.terrainId;
    const ready=terrains.find(t=>t.id===currentID)||terrains.find(t=>t.id==='sample_analog_dem')||terrains.find(t=>t.can_create_parcel)||terrains[0];
    if(ready)choose(ready.id);
-   selectTerrains();if(run.id)outputRun(run);
+   selectTerrains();if(run.id && run.id===ownRunId)outputRun(run);
   }catch(err){if(alive){el('simServerStatus').textContent='SIMULATION API OFFLINE';showError('Simulation backend unavailable: '+err.message);}}
  polling=setInterval(async()=>{
   if(!alive||!el('simMap'))return;
-  try{const run=await api('/runs/current');if(run.id)outputRun(run)}catch{};
+  try{const run=await api('/runs/current');if(run.id && run.id===ownRunId)outputRun(run)}catch{};
  },1600);
 }
